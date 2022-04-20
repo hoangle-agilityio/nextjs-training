@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "name": "Hoang",
+      "email": "hoang.le@asnet.com.vn",
+      "id": 1
+    },
+    {
+      "name": "Roy Le",
+      "email": "royle@gmail.com",
+      "id": 2
+    }
+  ]
+}
