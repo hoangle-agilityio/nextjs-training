@@ -29,6 +29,7 @@ const Home = ({ users }: InferGetServerSidePropsType<typeof getServerSideProps>)
         <Button
           buttonName="Add User"
           type="success"
+          href="user/add"
         />
       </section>
       <section>

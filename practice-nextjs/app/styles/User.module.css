@@ -1,0 +1,32 @@
+.wrapper {
+  position: absolute;
+  inset: 10%;
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  overflow: auto;
+  border-radius: 4px;
+  padding: 35px;
+}
+
+.title {
+  font-size: 36px;
+  text-transform: uppercase;
+  color: #333333;
+  margin-bottom: 30px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  gap: 5px;
+}
+
+.inputItem {
+  padding: 10px;
+}
+
+.errorMsg {
+  color: #ff0000;
+  font-style: italic;
+}
