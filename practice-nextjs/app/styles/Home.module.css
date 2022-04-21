@@ -1,0 +1,41 @@
+.app {
+  background-color: #eeeeee;
+  padding: 30px 0;
+}
+
+.appHeader {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.app__heading {
+  font-size: 36px;
+  text-transform: uppercase;
+  color: #333333;
+  margin-bottom: 30px;
+}
+
+.userList {
+  border-collapse: collapse;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.listHead,
+.listItem {
+  border: 1px solid #333333;
+  text-align: left;
+  padding: 8px;
+}
+
+.emptyItem {
+  color: #ff0000;
+  font-style: italic;
+}
+
+.createUser {
+  width: 90%;
+  margin: 0 auto;
+  text-align: right;
+}
