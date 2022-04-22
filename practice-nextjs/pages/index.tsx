@@ -63,6 +63,7 @@ const Home = ({ users }: InferGetServerSidePropsType<typeof getServerSideProps>)
                       <Button
                         buttonName="Edit"
                         type="primary"
+                        href={`/user/edit/${user.id}`}
                       />
 
                       <Button

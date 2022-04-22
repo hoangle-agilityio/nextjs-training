@@ -32,3 +32,16 @@ export async function addUser(data: Partial<User>): Promise<User> {
 
   return response.json();
 }
+
+export async function getUserById(id?: string | string[]): Promise<User> {
+  const response: Response = await fetch(`${API_URL}/${id}`);
+
+  return response.json();
+}
+
+export async function updateUser(data: Partial<User>): Promise<User> {
+  const url: string = `${API_URL}/${data.id}`;
+  const response: Response = await remoteFetchByUrl(url, data, "PUT");
+
+  return response.json();
+}
