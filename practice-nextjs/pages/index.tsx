@@ -1,12 +1,29 @@
 import { InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { getAllUsers } from "../app/api";
+import { useState } from "react";
+import { deleteUser, getAllUsers } from "../app/api";
 import Button from "../app/components/Button";
 import User from "../app/core/interfaces/user";
 import styles from "../app/styles/Home.module.css";
 
-const Home = ({ users }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [users, setUsers] = useState(data);
+
+  // Delete user when click to button delete
+  const handleDeleteUser = async (user: User): Promise<void> => {
+    if (confirm("Are you sure to delete this user?")) {
+      try {
+        await deleteUser(user.id);
+
+        setUsers(users => users.filter(data => data.id !== user.id));
+        alert("User deleted successfully!");
+      } catch (error) {
+        throw new Error(`Delete data failed: ${error}`);
+      }
+    }
+  }
+
   return (
     <div className={styles.app}>
       <Head>
@@ -69,6 +86,7 @@ const Home = ({ users }: InferGetServerSidePropsType<typeof getServerSideProps>)
                       <Button
                         buttonName="Delete"
                         type="danger"
+                        onClick={() => handleDeleteUser(user)}
                       />
                     </td>
                   </tr>
@@ -83,11 +101,11 @@ const Home = ({ users }: InferGetServerSidePropsType<typeof getServerSideProps>)
 }
 
 export const getServerSideProps = async () => {
-  const users: User[] = await getAllUsers();
+  const data: User[] = await getAllUsers();
 
   return {
     props: {
-      users,
+      data,
     }
   };
 }

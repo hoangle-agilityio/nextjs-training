@@ -45,3 +45,9 @@ export async function updateUser(data: Partial<User>): Promise<User> {
 
   return response.json();
 }
+
+export async function deleteUser(id: number): Promise<void> {
+  const url: string = `${API_URL}/${id}`;
+
+  await remoteFetchByUrl(url, {}, "DELETE");
+}
