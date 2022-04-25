@@ -4,11 +4,15 @@ import Image from "next/image";
 import { useState } from "react";
 import { deleteUser, getAllUsers } from "../app/api";
 import Button from "../app/components/Button";
+import Notification from "../app/components/Notification";
 import User from "../app/core/interfaces/user";
 import styles from "../app/styles/Home.module.css";
 
 const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [users, setUsers] = useState(data);
+  const [isOpenNotification, setIsOpenNotification] = useState(false);
+  const [typeNotification, setTypeNotification] = useState("");
+  const [notificationMessage, setNotificationMessage] = useState("");
 
   // Delete user when click to button delete
   const handleDeleteUser = async (user: User): Promise<void> => {
@@ -17,14 +21,23 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
         await deleteUser(user.id);
 
         setUsers(users => users.filter(data => data.id !== user.id));
-        alert("User deleted successfully!");
+
+        // Set notification after delete user
+        setIsOpenNotification(true);
+        setTypeNotification("success");
+        setNotificationMessage("User deleted successfully!");
       } catch (error) {
+        // Set notification when delete user failed
+        setIsOpenNotification(true);
+        setTypeNotification("error");
+        setNotificationMessage(`Delete data failed: ${error}`);
+
         throw new Error(`Delete data failed: ${error}`);
       }
     }
   }
 
-  return (
+  return (console.log("render"),
     <div className={styles.app}>
       <Head>
         <title>Users</title>
@@ -97,6 +110,7 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
           </tbody>
         </table>
       </section>
+      {isOpenNotification ? <Notification isOpen={setIsOpenNotification} message={notificationMessage} type={typeNotification} /> : null}
     </div>
   );
 }

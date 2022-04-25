@@ -7,6 +7,7 @@ import { VALIDATE } from "../../core/constants/validate";
 import User from "../../core/interfaces/user";
 import styles from "../../styles/User.module.css";
 import Button from "../Button";
+import Notification from "../Notification";
 
 interface UserManagementProps {
   currentUser?: User;
@@ -15,11 +16,12 @@ interface UserManagementProps {
 
 const UserManagement = (props: UserManagementProps) => {
   const [errors, setErrors] = useState<string[]>([]);
+  const [isOpenNotification, setIsOpenNotification] = useState(false);
+  const [typeNotification, setTypeNotification] = useState("");
+  const [notificationMessage, setNotificationMessage] = useState("");
 
   const userNameRef = useRef() as MutableRefObject<HTMLInputElement>;
   const userEmailRef = useRef() as MutableRefObject<HTMLInputElement>;
-
-  const router = useRouter();
 
   let formTitle: string;
   let description: string;
@@ -29,8 +31,16 @@ const UserManagement = (props: UserManagementProps) => {
     try {
       await addUser(userData);
 
-      alert("User added successfully!");
+      // Set notification after add user
+      setIsOpenNotification(true);
+      setTypeNotification("success");
+      setNotificationMessage("User added successfully!");
     } catch (error) {
+      // Set notification when add user failed
+      setIsOpenNotification(true);
+      setTypeNotification("error");
+      setNotificationMessage(`Add data failed: ${error}`);
+
       throw new Error(`Add data failed: ${error}`);
     }
   }
@@ -40,8 +50,16 @@ const UserManagement = (props: UserManagementProps) => {
     try {
       await updateUser(userData);
 
-      alert("User updated successfully!");
+      // Set notification after update user
+      setIsOpenNotification(true);
+      setTypeNotification("success");
+      setNotificationMessage("User updated successfully!");
     } catch (error) {
+      // Set notification when update user failed
+      setIsOpenNotification(true);
+      setTypeNotification("error");
+      setNotificationMessage(`Update data failed: ${error}`);
+
       throw new Error(`Update data failed: ${error}`);
     }
   }
@@ -66,9 +84,12 @@ const UserManagement = (props: UserManagementProps) => {
       } else {
         await handleAddUser(userData);
       }
-
-      router.push("/", undefined, { shallow: true });
     } catch (error) {
+      // Set notification when submit data failed
+      setIsOpenNotification(true);
+      setTypeNotification("error");
+      setNotificationMessage(`Submit data failed: ${error}`);
+
       throw new Error(`Submit data failed: ${error}`);
     }
   }
@@ -138,6 +159,7 @@ const UserManagement = (props: UserManagementProps) => {
         type="secondary"
         href="/"
       />
+      {isOpenNotification ? <Notification isRedirect={true} isOpen={setIsOpenNotification} message={notificationMessage} type={typeNotification} /> : null}
     </section>
   );
 }
