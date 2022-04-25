@@ -1,0 +1,51 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* CSS for Button Component */
+.btn {
+  border: none;
+  border-radius: 5px;
+  margin: 10px;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background-color: #037BFF;
+  color: #FFFFFF;
+}
+
+.btn-secondary {
+  background-color: #6C757D;
+  color: #FFFFFF;
+}
+
+.btn-danger {
+  background-color: #DC3545;
+  color: #FFFFFF;
+}
+
+.btn-success {
+  background-color: #28A745;
+  color: #FFFFFF;
+}
+
+.btn-info {
+  background-color: #17A2B8;
+  color: #FFFFFF;
+}

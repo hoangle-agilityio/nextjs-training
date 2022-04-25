@@ -31,5 +31,6 @@
 - Checkout branch: git checkout feature/practice-nextjs
 - Run: pnpm install
 - Run: pnpm json:server
-- Run: pnpm dev
-- View app on browser: http://localhost:3001
+- Run: pnpm build
+- Run: pnpm start
+- View app on browser: http://localhost:8080
