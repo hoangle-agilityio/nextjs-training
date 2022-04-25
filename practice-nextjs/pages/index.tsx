@@ -75,6 +75,7 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
                       <Button
                         buttonName="View"
                         type="info"
+                        href={`/user/view/${user.id}`}
                       />
 
                       <Button

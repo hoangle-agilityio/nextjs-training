@@ -1,14 +1,14 @@
 import { GetServerSideProps, NextPage } from "next";
 import { getUserById } from "../../../app/api";
-import User from "../../../app/core/interfaces/user";
 import UserManagement from "../../../app/components/User";
+import User from "../../../app/core/interfaces/user";
 
-interface EditUserProps {
+interface UserDetailProps {
   currentUser: User;
 }
 
-const EditUser: NextPage<EditUserProps> = ({ currentUser }: EditUserProps) => {
-  return <UserManagement currentUser={currentUser} />
+const UserDetail: NextPage<UserDetailProps> = ({ currentUser }: UserDetailProps) => {
+  return <UserManagement currentUser={currentUser} isViewUser={true} />
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -28,4 +28,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 }
 
-export default EditUser;
+export default UserDetail;

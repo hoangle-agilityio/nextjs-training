@@ -10,6 +10,7 @@ import Button from "../Button";
 
 interface UserManagementProps {
   currentUser?: User;
+  isViewUser?: boolean;
 }
 
 const UserManagement = (props: UserManagementProps) => {
@@ -21,6 +22,7 @@ const UserManagement = (props: UserManagementProps) => {
   const router = useRouter();
 
   let formTitle: string;
+  let description: string;
 
   // Add user data to server
   const handleAddUser = async (userData: Partial<User>): Promise<void> => {
@@ -86,17 +88,22 @@ const UserManagement = (props: UserManagementProps) => {
     return errors;
   }
 
-  if (props.currentUser) {
+  if (props.isViewUser) {
+    formTitle = USER_INFORMATION.VIEW;
+    description = "Display user detail";
+  } else if (props.currentUser) {
     formTitle = USER_INFORMATION.EDIT;
+    description = "Edit user";
   } else {
     formTitle = USER_INFORMATION.ADD;
+    description = "Add new user";
   }
-  
+
   return (
     <section className={styles.wrapper}>
       <Head>
         <title>{formTitle}</title>
-        <meta name="description" content="Add new user" />
+        <meta name="description" content={description} />
       </Head>
 
       <h2 className={styles.title}>{formTitle}</h2>
@@ -107,18 +114,24 @@ const UserManagement = (props: UserManagementProps) => {
 
       <div className={styles.inputGroup}>
         <label htmlFor="userName">User Name</label>
-        <input ref={userNameRef} type="text" id="userName" className={styles.inputItem} defaultValue={props.currentUser?.name} />
+        <input ref={userNameRef} type="text" readOnly={props.isViewUser} id="userName" className={styles.inputItem} defaultValue={props.currentUser?.name} />
       </div>
       <div className={styles.inputGroup}>
         <label htmlFor="userEmail">User Email</label>
-        <input ref={userEmailRef} type="text" id="userEmail" className={styles.inputItem} defaultValue={props.currentUser?.email} />
+        <input ref={userEmailRef} type="text" readOnly={props.isViewUser} id="userEmail" className={styles.inputItem} defaultValue={props.currentUser?.email} />
       </div>
-
-      <Button
-        buttonName={formTitle}
-        type="success"
-        onClick={() => handleSubmitUser(props.currentUser!)}
-      />
+      {props.isViewUser ?
+        <Button
+          buttonName="Edit"
+          type="primary"
+          href={`/user/edit/${props.currentUser?.id}`}
+        /> :
+        <Button
+          buttonName={formTitle}
+          type="success"
+          onClick={() => handleSubmitUser(props.currentUser!)}
+        />
+      }
 
       <Button
         buttonName={USER_INFORMATION.CANCEL}
