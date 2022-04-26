@@ -5,6 +5,7 @@ import { useState } from "react";
 import { deleteUser, getAllUsers } from "../app/api";
 import Button from "../app/components/Button";
 import Notification from "../app/components/Notification";
+import { searching } from "../app/core/helpers/search-helper";
 import User from "../app/core/interfaces/user";
 import styles from "../app/styles/Home.module.css";
 
@@ -13,6 +14,7 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
   const [isOpenNotification, setIsOpenNotification] = useState(false);
   const [typeNotification, setTypeNotification] = useState("");
   const [notificationMessage, setNotificationMessage] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Delete user when click to button delete
   const handleDeleteUser = async (user: User): Promise<void> => {
@@ -37,7 +39,12 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
     }
   }
 
-  return (console.log("render"),
+  // Filter user list by searchTerm
+  const searchResult = users.filter(user => {
+    return searching(user, searchTerm);
+  });
+
+  return (
     <div className={styles.app}>
       <Head>
         <title>Users</title>
@@ -62,6 +69,10 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
           href="user/add"
         />
       </section>
+      <section className={styles.searchUser}>
+        <label htmlFor="search">Search:</label>
+        <input type="text" id="search" className={styles.searchInput} onChange={event => setSearchTerm(event.target.value)} />
+      </section>
       <section>
         <table className={styles.userList}>
           <thead>
@@ -73,13 +84,13 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
             </tr>
           </thead>
           <tbody>
-            {users.length === 0 ? (
+            {searchResult.length === 0 ? (
               <tr>
                 <td className={styles.emptyItem}>No data found!</td>
               </tr>
             ) : (
               <>
-                {users.map(user => (
+                {searchResult.map(user => (
                   <tr key={user.id}>
                     <td className={styles.listItem}>{user.id}</td>
                     <td className={styles.listItem}>{user.name}</td>
