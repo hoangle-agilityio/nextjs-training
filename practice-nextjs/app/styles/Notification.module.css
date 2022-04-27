@@ -20,6 +20,10 @@
   background-color: #f44336;
 }
 
+.info {
+  background-color: #2196f3;
+}
+
 .closeNotification {
   cursor: pointer;
 }

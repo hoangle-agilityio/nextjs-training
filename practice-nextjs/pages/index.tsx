@@ -5,34 +5,47 @@ import { useState } from "react";
 import { deleteUser, getAllUsers } from "../app/api";
 import Button from "../app/components/Button";
 import Notification from "../app/components/Notification";
+import { ROUTE } from "../app/core/constants/route";
+import { TYPE_NOTIFICATION } from "../app/core/constants/type-notification";
 import { searching } from "../app/core/helpers/search-helper";
+import NotificationProps from "../app/core/interfaces/notification";
 import User from "../app/core/interfaces/user";
 import styles from "../app/styles/Home.module.css";
 
 const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [users, setUsers] = useState(data);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
-  const [typeNotification, setTypeNotification] = useState("");
-  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notification, setNotification] = useState<NotificationProps>();
   const [searchTerm, setSearchTerm] = useState("");
 
   // Delete user when click to button delete
   const handleDeleteUser = async (user: User): Promise<void> => {
     if (confirm("Are you sure to delete this user?")) {
       try {
+        // Set notification after delete user
+        setIsOpenNotification(true);
+        setNotification({
+          type: TYPE_NOTIFICATION.INFO,
+          message: "In progress, please wait!",
+        });
+
         await deleteUser(user.id);
 
         setUsers(users => users.filter(data => data.id !== user.id));
 
         // Set notification after delete user
         setIsOpenNotification(true);
-        setTypeNotification("success");
-        setNotificationMessage("User deleted successfully!");
+        setNotification({
+          type: TYPE_NOTIFICATION.SUCCESS,
+          message: "User deleted successfully!",
+        });
       } catch (error) {
         // Set notification when delete user failed
         setIsOpenNotification(true);
-        setTypeNotification("error");
-        setNotificationMessage(`Delete data failed: ${error}`);
+        setNotification({
+          type: TYPE_NOTIFICATION.ERROR,
+          message: `Delete data failed: ${error}`,
+        });
 
         throw new Error(`Delete data failed: ${error}`);
       }
@@ -66,7 +79,7 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
         <Button
           buttonName="Add User"
           type="success"
-          href="user/add"
+          href={ROUTE.ADD_USER}
         />
       </section>
       <section className={styles.searchUser}>
@@ -99,13 +112,13 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
                       <Button
                         buttonName="View"
                         type="info"
-                        href={`/user/view/${user.id}`}
+                        href={`${ROUTE.VIEW_USER}${user.id}`}
                       />
 
                       <Button
                         buttonName="Edit"
                         type="primary"
-                        href={`/user/edit/${user.id}`}
+                        href={`${ROUTE.EDIT_USER}${user.id}`}
                       />
 
                       <Button
@@ -121,7 +134,7 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
           </tbody>
         </table>
       </section>
-      {isOpenNotification ? <Notification isOpen={setIsOpenNotification} message={notificationMessage} type={typeNotification} /> : null}
+      {isOpenNotification ? <Notification isOpen={setIsOpenNotification} message={notification!.message} type={notification!.type} /> : null}
     </div>
   );
 }

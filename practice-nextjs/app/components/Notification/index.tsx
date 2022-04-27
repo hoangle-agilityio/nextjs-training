@@ -6,16 +6,16 @@ interface NotificationProps {
   isOpen: React.Dispatch<React.SetStateAction<boolean>>;
   message: string;
   type: string;
-  isRedirect?: boolean;
+  redirectPath?: string;
 }
 
-const Notification = ({ message, type, isOpen, isRedirect }: NotificationProps) => {
+const Notification = ({ message, type, isOpen, redirectPath }: NotificationProps) => {
   const router = useRouter();
 
   const handleCloseNotification = () => {
     isOpen(false);
 
-    isRedirect && router.push("/", undefined, { shallow: true });
+    redirectPath && router.push(redirectPath, undefined, { shallow: true });
   }
 
   useEffect(() => {
