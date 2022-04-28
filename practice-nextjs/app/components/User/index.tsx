@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { MutableRefObject, useRef, useState } from "react";
 import { addUser, updateUser } from "../../api";
-import { TYPE_NOTIFICATION } from "../../core/constants/type-notification";
+import { NOTIFICATION_TYPE } from "../../core/constants/notification-type";
 import { USER_INFORMATION } from "../../core/constants/user-information";
 import { VALIDATE } from "../../core/constants/validate";
 import User from "../../core/interfaces/user";
@@ -10,6 +10,7 @@ import styles from "../../styles/User.module.css";
 import Button from "../Button";
 import Notification from "../Notification";
 import { ROUTE } from "../../core/constants/route";
+import { useRouter } from "next/router";
 
 interface UserManagementProps {
   currentUser?: User;
@@ -20,6 +21,8 @@ const UserManagement = (props: UserManagementProps) => {
   const [errors, setErrors] = useState<string[]>([]);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
   const [notification, setNotification] = useState<NotificationProps>();
+
+  const router = useRouter();
 
   const userNameRef = useRef() as MutableRefObject<HTMLInputElement>;
   const userEmailRef = useRef() as MutableRefObject<HTMLInputElement>;
@@ -35,14 +38,14 @@ const UserManagement = (props: UserManagementProps) => {
       // Set notification after add user
       setIsOpenNotification(true);
       setNotification({
-        type: TYPE_NOTIFICATION.SUCCESS,
+        type: NOTIFICATION_TYPE.SUCCESS,
         message: "User added successfully!",
       });
     } catch (error) {
       // Set notification when add user failed
       setIsOpenNotification(true);
       setNotification({
-        type: TYPE_NOTIFICATION.ERROR,
+        type: NOTIFICATION_TYPE.ERROR,
         message: `Add data failed: ${error}`,
       });
 
@@ -58,14 +61,14 @@ const UserManagement = (props: UserManagementProps) => {
       // Set notification after update user
       setIsOpenNotification(true);
       setNotification({
-        type: TYPE_NOTIFICATION.SUCCESS,
+        type: NOTIFICATION_TYPE.SUCCESS,
         message: "User updated successfully!",
       });
     } catch (error) {
       // Set notification when update user failed
       setIsOpenNotification(true);
       setNotification({
-        type: TYPE_NOTIFICATION.ERROR,
+        type: NOTIFICATION_TYPE.ERROR,
         message: `Update data failed: ${error}`,
       });
 
@@ -97,7 +100,7 @@ const UserManagement = (props: UserManagementProps) => {
       // Set notification when submit data failed
       setIsOpenNotification(true);
       setNotification({
-        type: TYPE_NOTIFICATION.ERROR,
+        type: NOTIFICATION_TYPE.ERROR,
         message: `Submit data failed: ${error}`,
       });
 
@@ -129,6 +132,12 @@ const UserManagement = (props: UserManagementProps) => {
   } else {
     formTitle = USER_INFORMATION.ADD;
     description = "Add new user";
+  }
+
+  const handleCloseNotification = () => {
+    setIsOpenNotification(false);
+
+    router.push(ROUTE.LIST, undefined, { shallow: true });
   }
 
   return (
@@ -170,7 +179,7 @@ const UserManagement = (props: UserManagementProps) => {
         type="secondary"
         href={ROUTE.LIST}
       />
-      {isOpenNotification ? <Notification redirectPath={ROUTE.LIST} isOpen={setIsOpenNotification} message={notification!.message} type={notification!.type} /> : null}
+      {isOpenNotification ? <Notification onClose={handleCloseNotification} message={notification!.message} type={notification!.type} /> : null}
     </section>
   );
 }

@@ -3,23 +3,14 @@ import { memo, useEffect } from "react";
 import styles from "../../styles/Notification.module.css";
 
 interface NotificationProps {
-  isOpen: React.Dispatch<React.SetStateAction<boolean>>;
   message: string;
   type: string;
-  redirectPath?: string;
+  onClose: () => void;
 }
 
-const Notification = ({ message, type, isOpen, redirectPath }: NotificationProps) => {
-  const router = useRouter();
-
-  const handleCloseNotification = () => {
-    isOpen(false);
-
-    redirectPath && router.push(redirectPath, undefined, { shallow: true });
-  }
-
+const Notification = ({ message, type, onClose }: NotificationProps) => {
   useEffect(() => {
-    const timeoutId = setTimeout(handleCloseNotification, 3000);
+    const timeoutId = setTimeout(onClose, 3000);
 
     return () => {
       clearTimeout(timeoutId);
@@ -29,7 +20,7 @@ const Notification = ({ message, type, isOpen, redirectPath }: NotificationProps
   return (
     <div className={`${styles.notification} ${styles[type]}`}>
       <span>{message}</span>
-      <span className={styles.closeNotification} onClick={handleCloseNotification}>&times;</span>
+      <span className={styles.closeNotification} onClick={onClose}>&times;</span>
     </div>
   );
 }

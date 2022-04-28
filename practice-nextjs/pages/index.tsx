@@ -6,7 +6,7 @@ import { deleteUser, getAllUsers } from "../app/api";
 import Button from "../app/components/Button";
 import Notification from "../app/components/Notification";
 import { ROUTE } from "../app/core/constants/route";
-import { TYPE_NOTIFICATION } from "../app/core/constants/type-notification";
+import { NOTIFICATION_TYPE } from "../app/core/constants/notification-type";
 import { searching } from "../app/core/helpers/search-helper";
 import NotificationProps from "../app/core/interfaces/notification";
 import User from "../app/core/interfaces/user";
@@ -25,7 +25,7 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
         // Set notification after delete user
         setIsOpenNotification(true);
         setNotification({
-          type: TYPE_NOTIFICATION.INFO,
+          type: NOTIFICATION_TYPE.INFO,
           message: "In progress, please wait!",
         });
 
@@ -36,14 +36,14 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
         // Set notification after delete user
         setIsOpenNotification(true);
         setNotification({
-          type: TYPE_NOTIFICATION.SUCCESS,
+          type: NOTIFICATION_TYPE.SUCCESS,
           message: "User deleted successfully!",
         });
       } catch (error) {
         // Set notification when delete user failed
         setIsOpenNotification(true);
         setNotification({
-          type: TYPE_NOTIFICATION.ERROR,
+          type: NOTIFICATION_TYPE.ERROR,
           message: `Delete data failed: ${error}`,
         });
 
@@ -56,6 +56,10 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
   const searchResult = users.filter(user => {
     return searching(user, searchTerm);
   });
+
+  const handleCloseNotification = () => {
+    setIsOpenNotification(false);
+  }
 
   return (
     <div className={styles.app}>
@@ -134,7 +138,7 @@ const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) 
           </tbody>
         </table>
       </section>
-      {isOpenNotification ? <Notification isOpen={setIsOpenNotification} message={notification!.message} type={notification!.type} /> : null}
+      {isOpenNotification ? <Notification message={notification!.message} type={notification!.type} onClose={handleCloseNotification} /> : null}
     </div>
   );
 }
