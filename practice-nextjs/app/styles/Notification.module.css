@@ -1,0 +1,29 @@
+.notification {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  overflow: hidden;
+  padding: 15px;
+  z-index: 99;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: #ffffff;
+}
+
+.success {
+  background-color: #4caf50;
+}
+
+.error {
+  background-color: #f44336;
+}
+
+.info {
+  background-color: #2196f3;
+}
+
+.closeNotification {
+  cursor: pointer;
+}

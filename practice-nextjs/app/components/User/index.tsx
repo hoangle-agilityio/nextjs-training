@@ -1,12 +1,16 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { MutableRefObject, useRef, useState } from "react";
 import { addUser, updateUser } from "../../api";
+import { NOTIFICATION_TYPE } from "../../core/constants/notification-type";
 import { USER_INFORMATION } from "../../core/constants/user-information";
 import { VALIDATE } from "../../core/constants/validate";
 import User from "../../core/interfaces/user";
+import NotificationInterface from "../../core/interfaces/notification";
 import styles from "../../styles/User.module.css";
 import Button from "../Button";
+import Notification from "../Notification";
+import { ROUTE } from "../../core/constants/route";
+import { useRouter } from "next/router";
 
 interface UserManagementProps {
   currentUser?: User;
@@ -15,11 +19,13 @@ interface UserManagementProps {
 
 const UserManagement = (props: UserManagementProps) => {
   const [errors, setErrors] = useState<string[]>([]);
+  const [isOpenNotification, setIsOpenNotification] = useState(false);
+  const [notification, setNotification] = useState<NotificationInterface>();
+
+  const router = useRouter();
 
   const userNameRef = useRef() as MutableRefObject<HTMLInputElement>;
   const userEmailRef = useRef() as MutableRefObject<HTMLInputElement>;
-
-  const router = useRouter();
 
   let formTitle: string;
   let description: string;
@@ -29,8 +35,20 @@ const UserManagement = (props: UserManagementProps) => {
     try {
       await addUser(userData);
 
-      alert("User added successfully!");
+      // Set notification after add user
+      setIsOpenNotification(true);
+      setNotification({
+        type: NOTIFICATION_TYPE.SUCCESS,
+        message: "User added successfully!",
+      });
     } catch (error) {
+      // Set notification when add user failed
+      setIsOpenNotification(true);
+      setNotification({
+        type: NOTIFICATION_TYPE.ERROR,
+        message: `Add data failed: ${error}`,
+      });
+
       throw new Error(`Add data failed: ${error}`);
     }
   }
@@ -40,8 +58,20 @@ const UserManagement = (props: UserManagementProps) => {
     try {
       await updateUser(userData);
 
-      alert("User updated successfully!");
+      // Set notification after update user
+      setIsOpenNotification(true);
+      setNotification({
+        type: NOTIFICATION_TYPE.SUCCESS,
+        message: "User updated successfully!",
+      });
     } catch (error) {
+      // Set notification when update user failed
+      setIsOpenNotification(true);
+      setNotification({
+        type: NOTIFICATION_TYPE.ERROR,
+        message: `Update data failed: ${error}`,
+      });
+
       throw new Error(`Update data failed: ${error}`);
     }
   }
@@ -66,9 +96,14 @@ const UserManagement = (props: UserManagementProps) => {
       } else {
         await handleAddUser(userData);
       }
-
-      router.push("/", undefined, { shallow: true });
     } catch (error) {
+      // Set notification when submit data failed
+      setIsOpenNotification(true);
+      setNotification({
+        type: NOTIFICATION_TYPE.ERROR,
+        message: `Submit data failed: ${error}`,
+      });
+
       throw new Error(`Submit data failed: ${error}`);
     }
   }
@@ -99,6 +134,12 @@ const UserManagement = (props: UserManagementProps) => {
     description = "Add new user";
   }
 
+  const handleCloseNotification = () => {
+    setIsOpenNotification(false);
+
+    router.push(ROUTE.LIST, undefined, { shallow: true });
+  }
+
   return (
     <section className={styles.wrapper}>
       <Head>
@@ -124,7 +165,7 @@ const UserManagement = (props: UserManagementProps) => {
         <Button
           buttonName="Edit"
           type="primary"
-          href={`/user/edit/${props.currentUser?.id}`}
+          href={`${ROUTE.EDIT_USER}${props.currentUser?.id}`}
         /> :
         <Button
           buttonName={formTitle}
@@ -136,8 +177,9 @@ const UserManagement = (props: UserManagementProps) => {
       <Button
         buttonName={USER_INFORMATION.CANCEL}
         type="secondary"
-        href="/"
+        href={ROUTE.LIST}
       />
+      {isOpenNotification ? <Notification onClose={handleCloseNotification} message={notification!.message} type={notification!.type} /> : null}
     </section>
   );
 }
