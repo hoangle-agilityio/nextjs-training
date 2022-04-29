@@ -8,14 +8,14 @@ import Notification from "../app/components/Notification";
 import { ROUTE } from "../app/core/constants/route";
 import { NOTIFICATION_TYPE } from "../app/core/constants/notification-type";
 import { searching } from "../app/core/helpers/search-helper";
-import NotificationProps from "../app/core/interfaces/notification";
+import NotificationInterface from "../app/core/interfaces/notification";
 import User from "../app/core/interfaces/user";
 import styles from "../app/styles/Home.module.css";
 
 const Home = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [users, setUsers] = useState(data);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
-  const [notification, setNotification] = useState<NotificationProps>();
+  const [notification, setNotification] = useState<NotificationInterface>();
   const [searchTerm, setSearchTerm] = useState("");
 
   // Delete user when click to button delete

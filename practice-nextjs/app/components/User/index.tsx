@@ -5,7 +5,7 @@ import { NOTIFICATION_TYPE } from "../../core/constants/notification-type";
 import { USER_INFORMATION } from "../../core/constants/user-information";
 import { VALIDATE } from "../../core/constants/validate";
 import User from "../../core/interfaces/user";
-import NotificationProps from "../../core/interfaces/notification";
+import NotificationInterface from "../../core/interfaces/notification";
 import styles from "../../styles/User.module.css";
 import Button from "../Button";
 import Notification from "../Notification";
@@ -20,7 +20,7 @@ interface UserManagementProps {
 const UserManagement = (props: UserManagementProps) => {
   const [errors, setErrors] = useState<string[]>([]);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
-  const [notification, setNotification] = useState<NotificationProps>();
+  const [notification, setNotification] = useState<NotificationInterface>();
 
   const router = useRouter();
 

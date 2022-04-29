@@ -1,4 +1,4 @@
-export default interface Notification {
+export default interface NotificationInterface {
   type: string;
   message: string;
 }

@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { memo, useEffect } from "react";
 import styles from "../../styles/Notification.module.css";
 
