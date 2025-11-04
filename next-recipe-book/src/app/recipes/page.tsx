@@ -1,9 +1,15 @@
 import { RecipeCard, RecipeCardsSkeleton } from "@/components/server";
 import { getAllRecipes } from "@/lib/recipe-data";
+import { RecipeFilters } from "@/types";
 import { Suspense } from "react";
 
-const RecipeList = async () => {
-  const recipes = await getAllRecipes();
+interface RecipesPageProps {
+  searchParams: Promise<RecipeFilters>;
+}
+
+const RecipeList = async ({ searchParams }: RecipesPageProps) => {
+  const filters = await searchParams;
+  const recipes = await getAllRecipes(filters);
 
   if (recipes.length === 0) {
     return <p className="text-gray-500">No recipes found.</p>;
@@ -24,10 +30,10 @@ const RecipeList = async () => {
   );
 };
 
-const RecipesPage = () => (
+const RecipesPage = ({ searchParams }: RecipesPageProps) => (
   <div className="container mx-auto p-4">
     <Suspense fallback={<RecipeCardsSkeleton />}>
-      <RecipeList />
+      <RecipeList searchParams={searchParams} />
     </Suspense>
   </div>
 );

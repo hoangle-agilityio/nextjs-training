@@ -6,6 +6,12 @@ import { REVALIDATE } from "@/constants";
 export const getAllRecipes = async (
   filters?: RecipeFilters
 ): Promise<RecipeListItem[]> => {
+  const cacheKey = [
+    "all-recipes-cache",
+    filters?.cuisineType || "",
+    filters?.search || "",
+  ];
+
   const cacheRecipes = await unstable_cache(
     async () => {
       return await prisma.recipe.findMany({
@@ -32,7 +38,7 @@ export const getAllRecipes = async (
         },
       });
     },
-    ["all-recipes-cache"],
+    cacheKey,
     {
       revalidate: REVALIDATE,
       tags: ["recipes"],
