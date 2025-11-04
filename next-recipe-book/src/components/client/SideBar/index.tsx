@@ -41,6 +41,10 @@ const SideBar = () => {
     router.push(`/recipes?${params.toString()}`);
   };
 
+  const handleRedirectAddRecipePage = () => {
+    router.push("/recipes/add");
+  };
+
   return (
     <div className="flex border border-gray-100 flex-col gap-4 bg-background shadow-md rounded-lg">
       <div className="px-4 py-14">
@@ -55,7 +59,7 @@ const SideBar = () => {
         />
       </div>
       <div className="border-t border-gray-300 px-4 py-6">
-        <Button title="Add New Recipe" />
+        <Button title="Add New Recipe" onClick={handleRedirectAddRecipePage} />
       </div>
     </div>
   );

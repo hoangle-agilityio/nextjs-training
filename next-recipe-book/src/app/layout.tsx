@@ -1,34 +1,24 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
 import { Header } from "@/components/server";
-import { SideBar } from "@/components/client";
-import { Suspense } from "react";
+import { LayoutContent } from "@/components/client";
 
 export const metadata: Metadata = {
   title: "Next Recipe Book",
   description: "Find and share your favorite recipes!",
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className="antialiased">
-        <Header />
-        <div className="flex flex-col-reverse md:flex-row gap-10 px-10 py-10 max-w-7xl mx-auto">
-          <div className="md:w-4/12 lg:w-3/12">
-            <Suspense fallback={<div className="h-96 bg-gray-100 rounded-lg animate-pulse" />}>
-              <SideBar />
-            </Suspense>
-          </div>
-          <div className="md:w-8/12 lg:w-9/12">
-            {children}
-          </div>
-        </div>
-      </body>
-    </html>
-  );
-}
+}>) => (
+  <html lang="en">
+    <body className="antialiased">
+      <Header />
+      <LayoutContent>{children}</LayoutContent>
+    </body>
+  </html>
+);
+
+export default RootLayout;

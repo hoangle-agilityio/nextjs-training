@@ -25,7 +25,7 @@ const FilterButton = ({
         {filterList?.map(({ id, label, value }) => (
           <button
             key={id}
-            className={`m-1 px-3 py-1 border rounded-full font-semibold text-sm w-fit cursor-pointer ${
+            className={`m-1 px-3 py-1 border rounded-full font-semibold text-sm w-fit cursor-pointer hover:opacity-90 transition ${
               filtered === value
                 ? "bg-button-secondary text-filter-selected"
                 : "bg-button-deactivate text-primary"
