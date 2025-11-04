@@ -1,18 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --base: #ffffff;
+  --background: #eceef0;
   --primary: #1f212c;
+  --button-primary: #2877dc;
+  --button-secondary: #d8f4dd;
+  --button-deactivate: #f0f2f4;
+  --filter-selected: #456f4c;
 }
 
 @theme inline {
+  /* Base Colors */
+  --color-base: var(--base);
+  --color-background: var(--background);
   --color-primary: var(--primary);
+  --color-filter-selected: var(--filter-selected);
+
+  /* Button Colors */
+  --color-button-primary: var(--button-primary);
+  --color-button-secondary: var(--button-secondary);
+  --color-button-deactivate: var(--button-deactivate);
+
+  /* Font Families */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--primary);
   font-family: Arial, Helvetica, sans-serif;
 }
