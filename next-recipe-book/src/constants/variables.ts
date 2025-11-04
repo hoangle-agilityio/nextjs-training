@@ -5,3 +5,5 @@ export const CUISINE_TYPE_OPTIONS = [
   { id: "4", label: "Indian", value: "indian" },
   { id: "5", label: "French", value: "french" },
 ];
+
+export const REVALIDATE = 1800;

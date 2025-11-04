@@ -1,1 +1,1 @@
-export { CUISINE_TYPE_OPTIONS } from "./variables";
+export { CUISINE_TYPE_OPTIONS, REVALIDATE } from "./variables";
