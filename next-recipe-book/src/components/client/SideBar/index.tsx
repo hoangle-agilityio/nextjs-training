@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Input, FilterButton, Button } from "@/components/client";
-import { CUISINE_TYPE_OPTIONS } from "@/constants/";
+import { CUISINE_TYPE_OPTIONS, ROUTE_BASE } from "@/constants/";
 import { RecipeFilters } from "@/types";
 
 const SideBar = () => {
@@ -38,11 +38,11 @@ const SideBar = () => {
     if (filters.search) params.set("search", filters.search);
     if (filters.cuisineType) params.set("cuisineType", filters.cuisineType);
 
-    router.push(`/recipes?${params.toString()}`);
+    router.push(`${ROUTE_BASE.RECIPES}?${params.toString()}`);
   };
 
   const handleRedirectAddRecipePage = () => {
-    router.push("/recipes/add");
+    router.push(ROUTE_BASE.ADD_RECIPE);
   };
 
   return (

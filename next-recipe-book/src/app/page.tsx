@@ -1,7 +1,8 @@
+import { ROUTE_BASE } from "@/constants";
 import { redirect } from "next/navigation";
 
 const Home = () => {
-  redirect("/recipes");
+  redirect(ROUTE_BASE.RECIPES);
 };
 
 export default Home;
