@@ -1,1 +1,2 @@
-export { default as SearchIcon } from "./SearchIcon";
+export { SearchIcon } from "./SearchIcon";
+export { ChevronRight } from "./ChevronRight";

@@ -2,7 +2,7 @@ interface SearchIconProps {
   className?: string;
 }
 
-const SearchIcon = ({ className = "size-6" }: SearchIconProps) => {
+export const SearchIcon = ({ className = "size-6" }: SearchIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -20,5 +20,3 @@ const SearchIcon = ({ className = "size-6" }: SearchIconProps) => {
     </svg>
   );
 };
-
-export default SearchIcon;
