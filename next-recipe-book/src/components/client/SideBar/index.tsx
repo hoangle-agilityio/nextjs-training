@@ -48,7 +48,7 @@ const SideBar = () => {
   return (
     <div className="flex border border-gray-100 flex-col gap-4 bg-background shadow-md rounded-lg">
       <div className="px-4 py-14">
-        <Input id="11" value={searchValue} onChange={handleSearchChange} />
+        <Input isSearch value={searchValue} onChange={handleSearchChange} />
       </div>
       <div className="px-4 pb-10">
         <FilterButton

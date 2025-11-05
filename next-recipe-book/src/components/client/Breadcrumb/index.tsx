@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronRight } from "@/components/icons";
+import { ArrowIcon } from "@/components/icons";
 import { LinkItemType } from "@/types";
 
 interface BreadCrumbProps {
@@ -26,7 +26,7 @@ const BreadCrumb = ({ items }: BreadCrumbProps) => {
 
           return (
             <li key={item.href} className="flex items-center">
-              <ChevronRight className="h-4 w-4 mx-1 text-gray-400" />
+              <ArrowIcon className="h-4 w-4 mx-1 text-gray-400" />
 
               {!isLast ? (
                 <Link

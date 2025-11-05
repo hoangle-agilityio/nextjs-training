@@ -1,10 +1,8 @@
-interface ChevronRightProps extends React.SVGProps<SVGSVGElement> {
+interface ArrowIconProps extends React.SVGProps<SVGSVGElement> {
   className?: string;
 }
 
-export const ChevronRight = ({
-  className = "size-6",
-}: React.SVGProps<SVGSVGElement>) => (
+export const ArrowIcon = ({ className = "size-6" }: ArrowIconProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
